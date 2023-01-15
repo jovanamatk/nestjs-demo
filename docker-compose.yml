@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  nest_main:
+    container_name: nest_main
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm run start:dev"
+    networks:
+      - webnet
+    depends_on:
+      - nest_postgres
+  nest_postgres:
+    container_name: nest_postgres
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: 111
+      POSTGRES_USER: nest
+      POSTGRES_DB: nest_demo_db
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+networks:
+  webnet: null
+volumes:
+  pgdata: null
