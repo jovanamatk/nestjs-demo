@@ -14,10 +14,7 @@ const environment = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
     }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({}),
-      dataSourceFactory: async () => {
-        await dataSource.initialize();
-        return dataSource;
-      },
+      dataSourceFactory: async () => await dataSource.initialize(),
     }),
   ],
   controllers: [AppController],
