@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  nest_main:
-    container_name: nest_main
+  main:
+    container_name: main
     build:
       context: .
       target: development
@@ -18,9 +18,9 @@ services:
     networks:
       - webnet
     depends_on:
-      - nest_postgres
-  nest_postgres:
-    container_name: nest_postgres
+      - postgres
+  postgres:
+    container_name: postgres
     image: postgres:12
     networks:
       - webnet
