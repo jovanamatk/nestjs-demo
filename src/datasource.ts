@@ -11,7 +11,7 @@ const dataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  entities: ['dist/*.entity.js'],
+  entities: ['dist/**/*.entity.js'],
   migrations: ['dist/migrations/*.js'],
 });
 
