@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/modules/users/entities/user.entity';
 import { UsersService } from '../../users/users.service';
@@ -8,6 +8,7 @@ import { PasswordService } from './password.service';
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
+    @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
     private readonly passwordService: PasswordService,
   ) {}
@@ -15,18 +16,20 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.usersService.findOneByEmail(email);
 
-    // const isPasswordValid = await this.passwordService.validatePassword(
-    //   password,
-    //   user.password,
-    // );
-
-    const isPasswordValid = password === user.password; // will be removed when /register route is implemented
-
-    if (isPasswordValid === true) {
-      return user;
+    if (user === null) {
+      return null;
     }
 
-    return null;
+    const isPasswordValid = await this.passwordService.validatePassword(
+      password,
+      user.password,
+    );
+
+    if (isPasswordValid === false) {
+      return null;
+    }
+
+    return user;
   }
 
   async createJwt(user: User) {
