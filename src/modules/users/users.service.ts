@@ -9,13 +9,11 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
   ) {}
 
-  async findOne(id: number, relations = []): Promise<User> {
-    const user = await this.usersRepository.findOneBy({ id });
+  async findOneById(id: number, relations = []): Promise<User> {
+    return await this.usersRepository.findOneBy({ id });
+  }
 
-    if (!user) {
-      throw new NotFoundException(`User ${id} not found`);
-    }
-
-    return user;
+  async findOneByEmail(email: string, relations = []): Promise<User> {
+    return await this.usersRepository.findOneBy({ email });
   }
 }
