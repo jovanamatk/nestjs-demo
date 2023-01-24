@@ -18,12 +18,16 @@ export class UsersService {
     private readonly passwordService: PasswordService,
   ) {}
 
-  async findOneById(id: number, relations = []): Promise<User> {
-    return await this.usersRepository.findOneBy({ id });
+  async findById(id: number, relations = []): Promise<User> {
+    return await this.usersRepository
+      .find({ where: { id }, relations })
+      .then((users) => users[0]);
   }
 
-  async findOneByEmail(email: string, relations = []): Promise<User> {
-    return await this.usersRepository.findOneBy({ email });
+  async findByEmail(email: string, relations = []): Promise<User> {
+    return await this.usersRepository
+      .find({ where: { email }, relations })
+      .then((users) => users[0]);
   }
 
   async create({ email, password, role }: CreateUser) {
