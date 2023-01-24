@@ -22,7 +22,7 @@ export class UsersController {
       throw new ForbiddenException('You can only access your own account');
     }
 
-    const user = await this.usersService.findOneById(id);
+    const user = await this.usersService.findById(id);
 
     if (user === null) {
       throw new NotFoundException(`User ${id} does not exist.`);

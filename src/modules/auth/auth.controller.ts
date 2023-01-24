@@ -32,7 +32,7 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto) {
-    if (await this.usersService.findOneByEmail(registerUserDto.email)) {
+    if (await this.usersService.findByEmail(registerUserDto.email)) {
       throw new ConflictException('User with this email already exists.');
     }
 
