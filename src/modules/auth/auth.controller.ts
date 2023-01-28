@@ -38,7 +38,7 @@ export class AuthController {
 
     const user = await this.usersService.create({
       ...registerUserDto,
-      role: Role.Subscriber,
+      role: Role.User,
     });
 
     return user;
